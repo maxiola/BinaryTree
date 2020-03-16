@@ -1,0 +1,36 @@
+﻿<Window x:Class="BinaryTree.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BinaryTree"
+        mc:Ignorable="d"
+        Title="Обучающий тренажер по методам обработки поисковых деревьев" Height="800" Width="1200">
+    <Grid Name = "myGrid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="204*"/>
+            <ColumnDefinition Width="143*"/>
+            <ColumnDefinition Width="846*"/>
+        </Grid.ColumnDefinitions>
+        <Button Content="Далее" HorizontalAlignment="Left" Margin="691.8,26,0,0" VerticalAlignment="Top" Width="133" Height="23" Click="Button_Click" Grid.Column="2"/>
+        <Menu x:Name="menu1" Height="21" Width="80" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top">
+            <MenuItem Header="Алгоритмы">
+                <MenuItem Header="Поиск" Click="Search_Click"/>
+                <MenuItem Header="Добавление" Click="Insert_Click"/>
+                <MenuItem Header="Удаление" Click="Remove_Click"/>
+            </MenuItem>
+        </Menu>
+        <Canvas x:Name="canvas1" HorizontalAlignment="Left" Height="543" Margin="44,198,0,0" VerticalAlignment="Top" Width="1102" Grid.ColumnSpan="3"/>
+        <TextBox x:Name="textBox1" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Margin="551.8,26,0,0" Grid.Column="2"/>
+        <Label x:Name="labelInfo" HorizontalAlignment="Left" Margin="10,138,0,0" VerticalAlignment="Top" Width="1162" FontSize="18" Height="40" Grid.ColumnSpan="3" Content=""/>
+
+        <RadioButton x:Name="learningRButton" Content="Обучение" Grid.Column="2" HorizontalAlignment="Left" Margin="551.8,72,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.453,-0.737" IsChecked="True" Checked="learningRButton_Checked"/>
+        <RadioButton x:Name="controlRButton" Content="Контроль" Grid.Column="2" HorizontalAlignment="Left" Margin="636.8,73,0,0" VerticalAlignment="Top" Checked="controlRButton_Checked"/>
+        <RadioButton x:Name="ans1rButton" HorizontalAlignment="Left" Margin="157,60,0,0" VerticalAlignment="Top" Height="27" Width="347" FontSize="16" Visibility="Hidden" Grid.ColumnSpan="3"/>
+        <RadioButton x:Name="ans2rButton" Grid.Column="2" HorizontalAlignment="Left" Margin="200.8,60,0,0" VerticalAlignment="Top" Height="27" Width="285" FontSize="16" Visibility="Hidden"/>
+        <RadioButton x:Name="ans3rButton" HorizontalAlignment="Left" Margin="157,92,0,0" VerticalAlignment="Top" Height="27" Width="347" FontSize="16" Visibility="Hidden" Grid.ColumnSpan="3"/>
+        <RadioButton x:Name="ans4rButton" Grid.Column="2" HorizontalAlignment="Left" Margin="200.8,92,0,0" VerticalAlignment="Top" Height="27" Width="285" FontSize="16" Visibility="Hidden"/>
+        <Label x:Name="labelQuestion" Grid.Column="2" HorizontalAlignment="Left" Margin="45.8,23,0,0" VerticalAlignment="Top" Width="246" FontSize="18" Visibility="Hidden"/>
+
+    </Grid>
+</Window>
