@@ -140,7 +140,7 @@ namespace BinaryTree
                     // отправить событие текстбоксу на очистку!
                     evRestart();
                 }
-                return "";
+                return "\n";
             }
         }
         public int InsertOneControl(int key)
@@ -283,10 +283,9 @@ namespace BinaryTree
                     currentNode = root;
                     Restart(root);
                     ready = false;
-                    // отправить событие текстбоксу на очистку! + радиобаттоны активные
                     evRestart();
                 }
-                return "";
+                return "\n";
             }
         }
         public int SearchOneControl(int key)
@@ -526,8 +525,8 @@ namespace BinaryTree
                     min_search = true;
                     found = false;
                     evRestart();
-                }
-                return "";
+                }                
+                return "\n";
             }
         }
         public int RemoveOneControl(int key)

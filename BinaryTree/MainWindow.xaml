@@ -20,9 +20,8 @@
                 <MenuItem Header="Удаление" Click="Remove_Click"/>
             </MenuItem>
         </Menu>
-        <Canvas x:Name="canvas1" HorizontalAlignment="Left" Height="543" Margin="44,198,0,0" VerticalAlignment="Top" Width="1102" Grid.ColumnSpan="3"/>
+        <Canvas x:Name="canvas1" HorizontalAlignment="Left" Height="543" Margin="44,198,0,0" VerticalAlignment="Top" Width="702" Grid.ColumnSpan="3"/>
         <TextBox x:Name="textBox1" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Margin="551.8,26,0,0" Grid.Column="2"/>
-        <Label x:Name="labelInfo" HorizontalAlignment="Left" Margin="10,138,0,0" VerticalAlignment="Top" Width="1162" FontSize="18" Height="40" Grid.ColumnSpan="3" Content=""/>
 
         <RadioButton x:Name="learningRButton" Content="Обучение" Grid.Column="2" HorizontalAlignment="Left" Margin="551.8,72,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.453,-0.737" IsChecked="True" Checked="learningRButton_Checked"/>
         <RadioButton x:Name="controlRButton" Content="Контроль" Grid.Column="2" HorizontalAlignment="Left" Margin="636.8,73,0,0" VerticalAlignment="Top" Checked="controlRButton_Checked"/>
@@ -31,6 +30,8 @@
         <RadioButton x:Name="ans3rButton" HorizontalAlignment="Left" Margin="90,92,0,0" VerticalAlignment="Top" Height="27" Width="386" FontSize="16" Visibility="Hidden" Grid.ColumnSpan="3"/>
         <RadioButton x:Name="ans4rButton" Grid.Column="2" HorizontalAlignment="Left" Margin="149.8,92,0,0" VerticalAlignment="Top" Height="27" Width="345" FontSize="16" Visibility="Hidden"/>
         <Label x:Name="labelQuestion" Grid.Column="1" HorizontalAlignment="Left" Margin="89,23,0,0" VerticalAlignment="Top" Width="246" FontSize="18" Visibility="Hidden" Grid.ColumnSpan="2"/>
+        <Label x:Name="labelInfo" Content="" HorizontalAlignment="Left" Margin="10,159,0,0" VerticalAlignment="Top" Width="992" Grid.ColumnSpan="3"/>
+        <TextBox x:Name="txtInfo" HorizontalAlignment="Left" Height="543" Margin="428.8,198,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="396" ScrollViewer.VerticalScrollBarVisibility="Auto" Grid.Column="2"/>
 
     </Grid>
 </Window>
