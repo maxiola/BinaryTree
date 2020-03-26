@@ -35,18 +35,18 @@ namespace BinaryTree
         Tree t;
         Random rnd;
         Mode mode;
-        List<int> keys;
-        int score, total, remove_questions;
+        int score, total;
+        const int QCOUNT = 5;
         public MainWindow()
-        {            
+        {
             rnd = new Random();
             score = 0;
             total = 0;
-            remove_questions = 5;
             t = new Tree();
             InitializeComponent();
+            InputBox inputBox = new InputBox();
+            inputBox.Show();
         }
-
         private int CheckedAnswer()
         {
             if (ans1rButton.IsChecked == true) return 1;
@@ -55,7 +55,6 @@ namespace BinaryTree
             if (ans4rButton.IsChecked == true) return 4;
             return 0;
         }
-
         private void ShowAnswers()
         {
             ans1rButton.Visibility = Visibility.Visible;
@@ -65,7 +64,6 @@ namespace BinaryTree
             labelQuestion.Visibility = Visibility.Visible;
             labelQuestion.Content = "Выберите правильный ответ";
         }
-
         private void HideAnswers()
         {
             ans1rButton.Visibility = Visibility.Hidden;
@@ -74,7 +72,6 @@ namespace BinaryTree
             ans4rButton.Visibility = Visibility.Hidden;
             labelQuestion.Visibility = Visibility.Hidden;
         }
-
         private void SearchAnswers()
         {
             ans1rButton.Content = "Элемент найден";
@@ -89,13 +86,12 @@ namespace BinaryTree
             ans3rButton.Content = "Ищем элемент слева";
             ans4rButton.Content = "Ищем элемент справа";
         }
-
         private void RemoveAnswers()
         {
             ans1rButton.Content = "У элемента нет потомков, он просто удаляется.";
             ans2rButton.Content = "Элемент замещается правым потомком.";
             ans3rButton.Content = "Элемент замещается левым потомком.";
-            ans4rButton.Content = "Элемент замещается минимальным потомком справа.";
+            ans4rButton.Content = "Элемент замещается мин. потомком справа.";
         }
         private void Uncheck()
         {
@@ -113,26 +109,26 @@ namespace BinaryTree
                 controlRButton.IsEnabled = false;
                 switch (mode)
                 {
-                    case Mode.L_Search:                        
+                    case Mode.L_Search:
                         labelInfo.Content = t.SearchOne(key);
                         break;
 
-                    case Mode.L_Insert:                        
+                    case Mode.L_Insert:
                         labelInfo.Content = t.InsertOne(key);
                         break;
 
-                    case Mode.L_Remove:                      
+                    case Mode.L_Remove:
                         labelInfo.Content = t.RemoveOne(key);
                         break;
 
-                    case Mode.C_Search:                        
+                    case Mode.C_Search:
                         if (ans1rButton.Visibility == Visibility.Hidden)
                         {
                             ShowAnswers();
                             SearchAnswers();
                         }
                         else
-                        {                                                        
+                        {
                             if (CheckedAnswer() == 0)
                             {
                                 MessageBox.Show("Выберите вариант ответа");
@@ -153,7 +149,7 @@ namespace BinaryTree
                                 labelInfo.Content = "Верно!";
                                 score++;
                             }
-                            else 
+                            else
                             {
                                 t.CurrentNode.Color = Color.FromArgb(255, 255, 0, 0);
                                 labelInfo.Content = "Неверно!";
@@ -181,7 +177,8 @@ namespace BinaryTree
                                 canvas1.Children.Clear();
                                 DrawTree(t.Root, canvas1.Width / 2, 20, 200, 80, 50, 0);
                                 MessageBox.Show("Правильных ответов: " + score + " из " + total);
-                            }                            
+                                //!!!
+                            }
                         }
                         break;
 
@@ -258,62 +255,85 @@ namespace BinaryTree
                                 MessageBox.Show("Выберите вариант ответа");
                                 return;
                             }
-                            if (remove_questions > 0)
+                            if (!t.Ready)
                             {
-                                int i = rnd.Next(0, keys.Count);
-                                textBox1.Text = keys[i].ToString();
-                                total++;
-                                remove_questions--;
-                                var correct_ans = t.RemoveOneControl(key);
-                                if (correct_ans == -1)
+                                if (total < QCOUNT)
                                 {
-                                    Uncheck();
-                                    labelInfo.Content = string.Empty;
-                                    score = 0;
-                                    total = 0;
-                                }
-                                else if (CheckedAnswer() == correct_ans)
-                                {
-                                    t.CurrentNode.Color = Color.FromArgb(255, 0, 255, 0);
-                                    labelInfo.Content = "Верно!";
-                                    score++;
+                                    total++;
+                                    var correct_ans = t.RemoveOneControl(key);
+                                    if (correct_ans == 0)
+                                    {
+                                        Uncheck();
+                                        labelInfo.Content = string.Empty;
+                                        score = 0;
+                                        total = 0;
+                                    }
+                                    else if (CheckedAnswer() == correct_ans)
+                                    {
+                                        t.CurrentNode.Color = Color.FromArgb(255, 0, 255, 0);
+                                        labelInfo.Content = "Верно!";
+                                        score++;
+                                    }
+                                    else
+                                    {
+                                        t.CurrentNode.Color = Color.FromArgb(255, 255, 0, 0);
+                                        labelInfo.Content = "Неверно!";
+                                        switch (correct_ans)
+                                        {
+                                            case 1:
+                                                labelInfo.Content += " У элемента нет потомков, он просто удаляется.";
+                                                break;
+
+                                            case 2:
+                                                labelInfo.Content += " Элемент замещается правым потомком.";
+                                                break;
+
+                                            case 3:
+                                                labelInfo.Content += " Элемент замещается левым потомком.";
+                                                break;
+
+                                            case 4:
+                                                labelInfo.Content += " Элемент замещается минимальным потомком справа.";
+                                                break;
+                                        }
+                                    }
+                                    if (total < QCOUNT)
+                                    {
+                                        List<int> keys = t.GetKeys(new List<int>(), t.Root);
+                                        int i = rnd.Next(0, keys.Count);
+                                        textBox1.Text = keys[i].ToString();
+                                        //t.Restart(t.Root);
+                                    }
+                                    
                                 }
                                 else
                                 {
-                                    t.CurrentNode.Color = Color.FromArgb(255, 255, 0, 0);
-                                    labelInfo.Content = "Неверно!";
-                                    switch (correct_ans)
-                                    {
-                                        case 1:
-                                            labelInfo.Content += " У элемента нет потомков, он просто удаляется.";
-                                            break;
-
-                                        case 2:
-                                            labelInfo.Content += " Элемент замещается правым потомком.";
-                                            break;
-
-                                        case 3:
-                                            labelInfo.Content += " Элемент замещается левым потомком.";
-                                            break;
-
-                                        case 4:
-                                            labelInfo.Content += " Элемент замещается минимальным потомком справа.";
-                                            break;
-                                    }
+                                    canvas1.Children.Clear();
+                                    DrawTree(t.Root, canvas1.Width / 2, 20, 200, 80, 50, 0);
+                                    MessageBox.Show("Правильных ответов: " + score + " из " + total);
+                                    t.Ready = true;
                                 }
                             }
                             else
                             {
-                                canvas1.Children.Clear();
-                                DrawTree(t.Root, canvas1.Width / 2, 20, 200, 80, 50, 0);
-                                MessageBox.Show("Правильных ответов: " + score + " из " + total);
+                                var res = MessageBox.Show("Хотите добавить ещё один элемент?", "Добавление", MessageBoxButton.YesNo);
+                                if (res == MessageBoxResult.Yes)
+                                {
+                                    total = 0;
+                                    t.CurrentNode = t.Root;
+                                    t.Restart(t.Root);
+                                    t.Ready = false;
+                                    tree_Restart();
+                                }
                             }
+                            break;
+
                         }
                         break;
-
                 }
                 canvas1.Children.Clear();
                 DrawTree(t.Root, canvas1.Width / 2, 20, 200, 80, 50, 0);
+
             }
         }
         private void DrawTree(Node n, double x, double y, double dx, double dy, double size, int lr)
@@ -323,7 +343,7 @@ namespace BinaryTree
                 return;
             }
             else
-            {               
+            {
                 Ellipse myEllipse = new Ellipse();
                 SolidColorBrush mySolidColorBrush = new SolidColorBrush();
                 mySolidColorBrush.Color = n.Color;
@@ -334,7 +354,7 @@ namespace BinaryTree
                 myEllipse.Height = size;
                 Canvas.SetLeft(myEllipse, x);
                 Canvas.SetTop(myEllipse, y);
-                
+
                 Label label1 = new Label();
                 label1.FontSize = 30;
                 label1.Content = n.Key;
@@ -352,19 +372,19 @@ namespace BinaryTree
                     if (lr > 0)
                     {
                         //right                 
-                        l.X2 = x - dx*1.5 + size / 2;
+                        l.X2 = x - dx * 1.5 + size / 2;
                     }
                     else
                     {
                         // left
-                        l.X2 = x + dx*1.5 + size / 2;
+                        l.X2 = x + dx * 1.5 + size / 2;
                     }
                     canvas1.Children.Add(l);
                 }
 
                 canvas1.Children.Add(myEllipse);
                 canvas1.Children.Add(label1);
-                
+
                 DrawTree(n.Left, x - dx, y + dy, dx / 1.5, dy, size, -1);
                 DrawTree(n.Right, x + dx, y + dy, dx / 1.5, dy, size, 1);
             }
@@ -372,6 +392,7 @@ namespace BinaryTree
         private void tree_Restart()
         {
             textBox1.Clear();
+            labelInfo.Content = string.Empty;
             learningRButton.IsEnabled = true;
             controlRButton.IsEnabled = true;
             learningRButton.IsChecked = true;
@@ -380,7 +401,7 @@ namespace BinaryTree
         private void MakeTree(int n)
         {
             t = new Tree();
-            keys = new List<int>(n);            
+            //keys = new List<int>(n);            
             t.evRestart += new RestartEventHandler(tree_Restart);
             for (int i = 0; i < n; i++)
             {
@@ -390,7 +411,7 @@ namespace BinaryTree
                     r = rnd.Next(10, 100);
                 }
                 t.Insert(t.Root, r, 0);
-                keys.Add(r);
+                //keys.Add(r);
             }
             canvas1.Children.Clear();
             DrawTree(t.Root, canvas1.Width / 2, 20, 200, 80, 50, 0);
@@ -402,7 +423,7 @@ namespace BinaryTree
             controlRButton.IsEnabled = true;
             learningRButton.IsEnabled = true;
             learningRButton.IsChecked = true;
-            
+
             labelInfo.Content = "";
             textBox1.Clear();
             MakeTree(rnd.Next(8, 11));
@@ -420,7 +441,7 @@ namespace BinaryTree
             controlRButton.IsEnabled = true;
             learningRButton.IsEnabled = true;
             learningRButton.IsChecked = true;
-            
+
             labelInfo.Content = "";
             textBox1.Clear();
             MakeTree(rnd.Next(4, 6));
@@ -438,7 +459,7 @@ namespace BinaryTree
             controlRButton.IsEnabled = true;
             learningRButton.IsEnabled = true;
             learningRButton.IsChecked = true;
-            
+
             labelInfo.Content = "";
             textBox1.Clear();
             MakeTree(rnd.Next(12, 15));
@@ -474,11 +495,12 @@ namespace BinaryTree
             if (mode == Mode.L_Remove)
             {
                 mode = Mode.C_Remove;
+                List<int> keys = t.GetKeys(new List<int>(), t.Root);
                 int i = rnd.Next(0, keys.Count);
                 textBox1.Text = keys[i].ToString();
-
             }
 
         }
     }
 }
+
