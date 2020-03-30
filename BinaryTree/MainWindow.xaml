@@ -5,32 +5,38 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BinaryTree"
         mc:Ignorable="d"
-        Title="Обучающий тренажер по методам обработки поисковых деревьев" Height="800" Width="1200">
+        Title="Обучающий тренажер по методам обработки поисковых деревьев" Height="800" Width="1200" Top="10" Left="50"
+        Closing="Window_Closing">
     <Grid Name = "myGrid">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="204*"/>
-            <ColumnDefinition Width="143*"/>
+            <ColumnDefinition Width="347*"/>
+            <ColumnDefinition Width="0*"/>
             <ColumnDefinition Width="846*"/>
         </Grid.ColumnDefinitions>
         <Button Content="Далее" HorizontalAlignment="Left" Margin="691.8,26,0,0" VerticalAlignment="Top" Width="133" Height="23" Click="Button_Click" Grid.Column="2"/>
-        <Menu x:Name="menu1" Height="21" Width="80" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top">
+        <Menu x:Name="menu1" Height="21" Width="400" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Grid.ColumnSpan="3">
             <MenuItem Header="Алгоритмы">
                 <MenuItem Header="Поиск" Click="Search_Click"/>
                 <MenuItem Header="Добавление" Click="Insert_Click"/>
                 <MenuItem Header="Удаление" Click="Remove_Click"/>
             </MenuItem>
+            <MenuItem Header="Преподавателю" Click="Teacher_Click"/>
+            <MenuItem Header="Справка">
+                <MenuItem Header="Руководство пользователя"/>
+                <MenuItem Header="О программе"/>
+            </MenuItem>
         </Menu>
         <Canvas x:Name="canvas1" HorizontalAlignment="Left" Height="543" Margin="44,198,0,0" VerticalAlignment="Top" Width="702" Grid.ColumnSpan="3"/>
         <TextBox x:Name="textBox1" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Margin="551.8,26,0,0" Grid.Column="2"/>
 
-        <RadioButton x:Name="learningRButton" Content="Обучение" Grid.Column="2" HorizontalAlignment="Left" Margin="551.8,72,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.453,-0.737" IsChecked="True" Checked="learningRButton_Checked"/>
-        <RadioButton x:Name="controlRButton" Content="Контроль" Grid.Column="2" HorizontalAlignment="Left" Margin="636.8,73,0,0" VerticalAlignment="Top" Checked="controlRButton_Checked"/>
+        <RadioButton x:Name="learningRButton" Content="Обучение" Grid.Column="2" HorizontalAlignment="Left" Margin="551.8,72,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.453,-0.737" IsChecked="True" Checked="learningRButton_Checked" Height="15" Width="74"/>
+        <RadioButton x:Name="controlRButton" Content="Контроль" Grid.Column="2" HorizontalAlignment="Left" Margin="636.8,73,0,0" VerticalAlignment="Top" Checked="controlRButton_Checked" Height="15" Width="71"/>
         <RadioButton x:Name="ans1rButton" HorizontalAlignment="Left" Margin="90,60,0,0" VerticalAlignment="Top" Height="27" Width="386" FontSize="16" Visibility="Hidden" Grid.ColumnSpan="3"/>
         <RadioButton x:Name="ans2rButton" Grid.Column="2" HorizontalAlignment="Left" Margin="149.8,60,0,0" VerticalAlignment="Top" Height="27" Width="345" FontSize="16" Visibility="Hidden"/>
         <RadioButton x:Name="ans3rButton" HorizontalAlignment="Left" Margin="90,92,0,0" VerticalAlignment="Top" Height="27" Width="386" FontSize="16" Visibility="Hidden" Grid.ColumnSpan="3"/>
         <RadioButton x:Name="ans4rButton" Grid.Column="2" HorizontalAlignment="Left" Margin="149.8,92,0,0" VerticalAlignment="Top" Height="27" Width="345" FontSize="16" Visibility="Hidden"/>
-        <Label x:Name="labelQuestion" Grid.Column="1" HorizontalAlignment="Left" Margin="89,23,0,0" VerticalAlignment="Top" Width="246" FontSize="18" Visibility="Hidden" Grid.ColumnSpan="2"/>
-        <Label x:Name="labelInfo" Content="" HorizontalAlignment="Left" Margin="10,159,0,0" VerticalAlignment="Top" Width="992" Grid.ColumnSpan="3"/>
+        <Label x:Name="labelQuestion" Grid.Column="2" HorizontalAlignment="Left" Margin="1.8,23,0,0" VerticalAlignment="Top" Width="246" FontSize="18" Visibility="Hidden" Height="10"/>
+        <Label x:Name="labelInfo" Content="" HorizontalAlignment="Left" Margin="10,159,0,0" VerticalAlignment="Top" Width="992" Grid.ColumnSpan="3" Height="26"/>
         <TextBox x:Name="txtInfo" HorizontalAlignment="Left" Height="543" Margin="428.8,198,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="396" ScrollViewer.VerticalScrollBarVisibility="Auto" Grid.Column="2"/>
 
     </Grid>
