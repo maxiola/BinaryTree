@@ -37,7 +37,7 @@
         <RadioButton x:Name="ans4rButton" Grid.Column="2" HorizontalAlignment="Left" Margin="149.8,92,0,0" VerticalAlignment="Top" Height="27" Width="345" FontSize="16" Visibility="Hidden"/>
         <Label x:Name="labelQuestion" Grid.Column="2" HorizontalAlignment="Left" Margin="1.8,23,0,0" VerticalAlignment="Top" Width="246" FontSize="18" Visibility="Hidden" Height="10"/>
         <Label x:Name="labelInfo" Content="" HorizontalAlignment="Left" Margin="10,159,0,0" VerticalAlignment="Top" Width="992" Grid.ColumnSpan="3" Height="26"/>
-        <TextBox x:Name="txtInfo" HorizontalAlignment="Left" Height="543" Margin="428.8,198,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="396" ScrollViewer.VerticalScrollBarVisibility="Auto" Grid.Column="2"/>
+        <TextBox x:Name="txtInfo" HorizontalAlignment="Left" Height="543" Margin="428.8,198,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="396" ScrollViewer.VerticalScrollBarVisibility="Auto" Grid.Column="2" TextChanged="txtInfo_TextChanged"/>
 
     </Grid>
 </Window>
