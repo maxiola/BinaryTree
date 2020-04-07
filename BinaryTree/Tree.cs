@@ -20,6 +20,7 @@ namespace BinaryTree
     {
         // поля класса
         private int key;
+        private double x, y, dx;
         private Node left, right;
         private Node parent;
         private Color color;
@@ -27,6 +28,9 @@ namespace BinaryTree
 
         // свойства
         public int Key { get { return key; } set { key = value; } }
+        public double X { get { return x; } set { x = value; } }
+        public double Y { get { return y; } set { y = value; } }
+        public double DX { get { return dx; } set { dx = value; } }
         public Node Left { get { return left; } set { left = value; } }
         public Node Right { get { return right; } set { right = value; } }
         public Node Parent { get { return parent; } set { parent = value; } }

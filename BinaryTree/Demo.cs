@@ -12,17 +12,18 @@ namespace BinaryTree
     {
         public event RestartEventHandler evRestart;
         private Node currentNode, minNode;
-        private bool ready, found, min_search, min_first;
+        private bool ready, found, min_search, min_first, created;
 
         public Node CurrentNode { get { return currentNode; } set { currentNode = value; } }
         public bool Ready { get { return ready; } set { ready = value; } }
         public bool Found { get { return found; } set { found = value; } }
         public bool Min_search { get { return min_search; } set { min_search = value; } }
         public bool Min_first { get { return min_first; } set { min_first = value; } }
-
+        public bool Created { get { return created; } set { created = value; } }
         public Demo()
         {
             ready = false;
+            created = false;
         }
         public string Search(int key, Tree t)
         {
@@ -75,18 +76,32 @@ namespace BinaryTree
                 {
                     if (currentNode.Left == null)
                     {
-                        currentNode.Color = Color.FromArgb(255, 255, 0, 0);
-                        currentNode.Left = new Node(key);
-                        currentNode.Left.Color = Color.FromArgb(255, 0, 255, 0);
-                        string res = "Значение добавляемого ключа " + key + " меньше " + currentNode.Key + " и левая ветка свободна, добавляем элемент";
-                        ready = true;
-                        return res;
+                        if (!created)
+                        {
+                            string res = "Значение добавляемого ключа " + key + " меньше или равно " + currentNode.Key + " и левая ветка свободна, создаём элемент";
+                            created = true;
+                            return res;
+                        }
+                        else
+                        {
+                            currentNode.Color = Color.FromArgb(255, 255, 0, 0);
+                            currentNode.Left = new Node(key);
+                            currentNode.Left.Color = Color.FromArgb(255, 0, 255, 0);
+                            string res = "Значение добавляемого ключа " + key + " меньше " + currentNode.Key + " и левая ветка свободна, добавляем элемент";
+                            ready = true;
+                            return res;
+                        }
                     }
                     else
                     {
                         currentNode.Color = Color.FromArgb(255, 255, 0, 0);
                         string res = "Значение добавляемого ключа " + key + " меньше " + currentNode.Key + ", необходимо искать свободную ветку в левом поддереве";
+                        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                        currentNode.Left.DX = currentNode.DX /= 1.5;
+                        currentNode.Left.X = currentNode.X - currentNode.Left.DX;
+                        currentNode.Left.Y = currentNode.Y + 60;
                         currentNode = currentNode.Left;
+                        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                         return res;
                     }
                 }
@@ -94,18 +109,31 @@ namespace BinaryTree
                 {
                     if (currentNode.Right == null)
                     {
-                        currentNode.Color = Color.FromArgb(255, 255, 0, 0);
-                        currentNode.Right = new Node(key);
-                        currentNode.Right.Color = Color.FromArgb(255, 0, 255, 0);
-                        string res = "Значение добавляемого ключа " + key + " больше " + currentNode.Key + " и правая ветка свободна, добавляем элемент";
-                        ready = true;
-                        return res;
+                        if (!created)
+                        {
+                            string res = "Значение добавляемого ключа " + key + " больше " + currentNode.Key + " и правая ветка свободна, создаём элемент";
+                            created = true;
+                            return res;
+                        }
+                        else
+                        {
+                            string res = "Элемент со значением " + key + " становится правым потомком элемента со значением " + currentNode.Key;
+                            currentNode.Color = Color.FromArgb(255, 255, 0, 0);
+                            currentNode.Right = new Node(key);
+                            currentNode.Right.Color = Color.FromArgb(255, 0, 255, 0);
+                            ready = true;
+                            return res;
+                        }
+                        
                     }
                     else
                     {
                         currentNode.Color = Color.FromArgb(255, 255, 0, 0);
                         string res = "Значение добавляемого ключа " + key + " больше " + currentNode.Key + ", необходимо искать свободную ветку в правом поддереве";
                         currentNode = currentNode.Right;
+                        currentNode.X += currentNode.DX;
+                        currentNode.Y += 60;
+                        currentNode.DX /= 1.5;
                         return res;
                     }
                 }
@@ -118,6 +146,7 @@ namespace BinaryTree
                     currentNode = t.Root;
                     t.Reset(t.Root);
                     ready = false;
+                    created = false;
                     evRestart();
                 }
                 return "\n";

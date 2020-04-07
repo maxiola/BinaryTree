@@ -11,10 +11,11 @@ namespace BinaryTree
     class Control
     {
         public event RestartEventHandler evRestart;
-        private Node currentNode;
+        private Node currentNode, previousNode;
         private bool ready, found, min_search, min_first;
 
         public Node CurrentNode { get { return currentNode; } set { currentNode = value; } }
+        public Node PreviousNode { get { return previousNode; } set { previousNode = value; } }
         public bool Ready { get { return ready; } set { ready = value; } }
         public bool Found { get { return found; } set { found = value; } }
         public bool Min_search { get { return min_search; } set { min_search = value; } }
@@ -65,33 +66,31 @@ namespace BinaryTree
         {
             if (!ready) // первичное добавление
             {
-                if (currentNode.Key >= key)
+                if (currentNode == null)
                 {
-                    if (currentNode.Left == null)
+                    ready = true;
+                    if (previousNode.Key >= key)
                     {
-                        ready = true;
-                        currentNode.Left = new Node(key);
+                        previousNode.Left = new Node(key);
                         return 1; // добавляем слева
                     }
                     else
                     {
-                        currentNode = currentNode.Left;
-                        return 3; // ищем слева
+                        previousNode.Right = new Node(key);
+                        return 2; // добавляем справа
                     }
+                }
+                else if (currentNode.Key >= key)
+                {
+                    previousNode = currentNode;
+                    currentNode = currentNode.Left;
+                    return 3; // ищем слева
                 }
                 else
                 {
-                    if (currentNode.Right == null)
-                    {
-                        ready = true;
-                        currentNode.Right = new Node(key);
-                        return 2; // добавляем справа
-                    }
-                    else
-                    {
-                        currentNode = currentNode.Right;
-                        return 4; // ищем справа
-                    }
+                    previousNode = currentNode;
+                    currentNode = currentNode.Right;
+                    return 4; // ищем справа
                 }
             }
             else // повторное добавление

@@ -140,8 +140,6 @@ namespace BinaryTree
             {                
                 step++;
                 int key = int.Parse(textBox1.Text);
-                learningRButton.IsEnabled = false;
-                controlRButton.IsEnabled = false;
                 switch (mode)
                 {                    
                     case Mode.L_Search:
@@ -173,6 +171,15 @@ namespace BinaryTree
                         else
                         {
                             NewLine();
+                        }
+                        if (r.Contains("создаём"))
+                        {
+                            DrawNode(Color.FromArgb(255, 255, 255, 0),
+                                     key,
+                                     demo.CurrentNode.X,
+                                     demo.CurrentNode.Y,
+                                     30);
+                            return;
                         }
                         break;
 
@@ -290,13 +297,15 @@ namespace BinaryTree
                             }
                             else if (CheckedAnswer() == correct_ans)
                             {
-                                control.CurrentNode.Color = Color.FromArgb(255, 0, 255, 0);
+                                if (control.CurrentNode != null)
+                                    control.CurrentNode.Color = Color.FromArgb(255, 0, 255, 0);
                                 txtInfo.Text += "Верно!\n";
                                 score++;
                             }
                             else
                             {
-                                control.CurrentNode.Color = Color.FromArgb(255, 255, 0, 0);
+                                if (control.CurrentNode != null)
+                                    control.CurrentNode.Color = Color.FromArgb(255, 255, 0, 0);
                                 txtInfo.Text += "Неверно!";
                                 switch (correct_ans)
                                 {
@@ -423,6 +432,51 @@ namespace BinaryTree
 
             }
         }
+        private void DrawNode(Color c, int key, double x, double y, double size)
+        {
+            Ellipse myEllipse = new Ellipse();
+            SolidColorBrush mySolidColorBrush = new SolidColorBrush();
+            mySolidColorBrush.Color = c;
+            myEllipse.Fill = mySolidColorBrush;
+            myEllipse.StrokeThickness = 2;
+            myEllipse.Stroke = Brushes.Black;
+            myEllipse.Width = size;
+            myEllipse.Height = size;
+            Canvas.SetLeft(myEllipse, x);
+            Canvas.SetTop(myEllipse, y);
+
+            Label label1 = new Label();
+            label1.FontSize = 15;
+            label1.Content = key;
+            Canvas.SetLeft(label1, x);
+            Canvas.SetTop(label1, y);
+
+            canvas1.Children.Add(myEllipse);
+            canvas1.Children.Add(label1);
+        }
+        private void DrawLine(double x, double y, double dx, double dy, double size, int lr)
+        {
+            if (lr != 0)
+            {
+                Line l = new Line();
+                l.Stroke = Brushes.Black;
+                l.StrokeThickness = 2;
+                l.X1 = x + size / 2;
+                l.Y1 = y;
+                l.Y2 = y - dy + size;
+                if (lr > 0)
+                {
+                    //right                 
+                    l.X2 = x - dx * 1.5 + size / 2;
+                }
+                else
+                {
+                    // left
+                    l.X2 = x + dx * 1.5 + size / 2;
+                }
+                canvas1.Children.Add(l);
+            }
+        }
         private void DrawTree(Node n, double x, double y, double dx, double dy, double size, int lr)
         {
             if (n == null)
@@ -431,47 +485,8 @@ namespace BinaryTree
             }
             else
             {
-                Ellipse myEllipse = new Ellipse();
-                SolidColorBrush mySolidColorBrush = new SolidColorBrush();
-                mySolidColorBrush.Color = n.Color;
-                myEllipse.Fill = mySolidColorBrush;
-                myEllipse.StrokeThickness = 2;
-                myEllipse.Stroke = Brushes.Black;
-                myEllipse.Width = size;
-                myEllipse.Height = size;
-                Canvas.SetLeft(myEllipse, x);
-                Canvas.SetTop(myEllipse, y);
-
-                Label label1 = new Label();
-                label1.FontSize = 15; //!
-                label1.Content = n.Key;
-                Canvas.SetLeft(label1, x);
-                Canvas.SetTop(label1, y);
-
-                if (lr != 0)
-                {
-                    Line l = new Line();
-                    l.Stroke = Brushes.Black;
-                    l.StrokeThickness = 2;
-                    l.X1 = x + size / 2;
-                    l.Y1 = y;
-                    l.Y2 = y - dy + size;
-                    if (lr > 0)
-                    {
-                        //right                 
-                        l.X2 = x - dx * 1.5 + size / 2;
-                    }
-                    else
-                    {
-                        // left
-                        l.X2 = x + dx * 1.5 + size / 2;
-                    }
-                    canvas1.Children.Add(l);
-                }
-
-                canvas1.Children.Add(myEllipse);
-                canvas1.Children.Add(label1);
-
+                DrawNode(n.Color, n.Key, x, y, size);
+                DrawLine(x, y, dx, dy, size, lr);
                 DrawTree(n.Left, x - dx, y + dy, dx / 1.5, dy, size, -1);
                 DrawTree(n.Right, x + dx, y + dy, dx / 1.5, dy, size, 1);
             }
@@ -481,9 +496,6 @@ namespace BinaryTree
             textBox1.Clear();
             txtInfo.Text += "\n";
             step = 0;
-            learningRButton.IsEnabled = true;
-            controlRButton.IsEnabled = true;
-            learningRButton.IsChecked = true;
             HideAnswers();
         }
         private void MakeTree(int n)
@@ -510,121 +522,98 @@ namespace BinaryTree
             canvas1.Children.Clear();
             DrawTree(t.Root, canvas1.Width / 2, 20, 150, 60, 30, 0);
         }
-        private void Search_Click(object sender, RoutedEventArgs e)
+        private void Search_Demo_Click(object sender, RoutedEventArgs e)
+        {
+            Search_Click();
+            mode = Mode.L_Search;            
+            demo.CurrentNode = t.Root;
+            demo.Ready = false;
+        }
+        private void Search_Control_Click(object sender, RoutedEventArgs e)
+        {
+            Search_Click();
+            mode = Mode.C_Search;
+            Random rnd = new Random();
+            total = 0;
+            score = 0;
+            control.CurrentNode = t.Root;
+            control.Ready = false;
+            textBox1.Text = rnd.Next(10, 100).ToString();
+        }
+        private void Search_Click()
         {
             Uncheck();
             HideAnswers();
-            controlRButton.IsEnabled = true;
-            learningRButton.IsEnabled = true;
-            learningRButton.IsChecked = true;
-
             step = 0;
             NewLine();
             textBox1.Clear();
-            MakeTree(rnd.Next(8, 11));
-            if (learningRButton.IsChecked == true)
-            {
-                mode = Mode.L_Search;
-                demo.CurrentNode = t.Root;
-                demo.Ready = false;
-            }
-            else if (controlRButton.IsChecked == true)
-            {
-                mode = Mode.C_Search;
-                control.CurrentNode = t.Root;
-                control.Ready = false;
-            }
-            
+            MakeTree(rnd.Next(8, 11));            
         }
-        private void Insert_Click(object sender, RoutedEventArgs e)
+        private void Insert_Demo_Click(object sender, RoutedEventArgs e)
+        {
+            Insert_Click();
+            mode = Mode.L_Insert;
+            demo.CurrentNode = t.Root;
+            demo.CurrentNode.X = canvas1.Width / 2;
+            demo.CurrentNode.Y = 20;
+            demo.CurrentNode.DX = 150;
+            demo.Ready = false;
+            demo.Created = false;
+        }
+        private void Insert_Control_Click(object sender, RoutedEventArgs e)
+        {
+            Insert_Click();
+            mode = Mode.C_Insert;
+            control.CurrentNode = t.Root;
+            control.Ready = false;
+            Random rnd = new Random();
+            total = 0;
+            score = 0;            
+            textBox1.Text = rnd.Next(10, 100).ToString();
+        }
+        private void Insert_Click()
         {
             Uncheck();
             HideAnswers();
-            controlRButton.IsEnabled = true;
-            learningRButton.IsEnabled = true;
-            learningRButton.IsChecked = true;
-
             step = 0;
             NewLine();
             textBox1.Clear();
-            MakeTree(rnd.Next(4, 6));
-            if (learningRButton.IsChecked == true)
-            {
-                mode = Mode.L_Insert;
-                demo.CurrentNode = t.Root;
-                demo.Ready = false;
-            }
-            else if (controlRButton.IsChecked == true)
-            {
-                mode = Mode.C_Insert;
-                control.CurrentNode = t.Root;
-                control.Ready = false;
-            }
+            MakeTree(rnd.Next(4, 6));            
         }
-        private void Remove_Click(object sender, RoutedEventArgs e)
+        private void Remove_Demo_Click(object sender, RoutedEventArgs e)
+        {
+            Remove_Click();
+            mode = Mode.L_Remove;
+            demo.CurrentNode = t.Root;
+            demo.Ready = false;
+            demo.Found = false;
+            demo.Min_search = true;
+            demo.Min_first = true;            
+        }
+        private void Remove_Control_Click(object sender, RoutedEventArgs e)
+        {
+            Remove_Click();
+            mode = Mode.C_Remove;
+            control.CurrentNode = t.Root;
+            control.Ready = false;
+            control.Found = false;
+            control.Min_search = true;
+            control.Min_first = true;
+            Random rnd = new Random();
+            total = 0;
+            score = 0;            
+            List<int> keys = t.GetKeys(new List<int>(), t.Root);
+            int i = rnd.Next(0, keys.Count);
+            textBox1.Text = keys[i].ToString();
+        }
+        private void Remove_Click()
         {
             Uncheck();
             HideAnswers();
-            controlRButton.IsEnabled = true;
-            learningRButton.IsEnabled = true;
-            learningRButton.IsChecked = true;
-
             step = 0;
             NewLine();
             textBox1.Clear();
             MakeTree(rnd.Next(10, 13));
-            if (learningRButton.IsChecked == true)
-            {
-                mode = Mode.L_Remove;
-                demo.CurrentNode = t.Root;
-                demo.Ready = false;
-                demo.Found = false;
-                demo.Min_search = true;
-                demo.Min_first = true;
-            }
-            else if (controlRButton.IsChecked == true)
-            {
-                mode = Mode.C_Remove;
-                control.CurrentNode = t.Root;
-                control.Ready = false;
-                control.Found = false;
-                control.Min_search = true;
-                control.Min_first = true;
-            }
-
-        }
-        private void learningRButton_Checked(object sender, RoutedEventArgs e)
-        {
-            if (mode == Mode.C_Insert) mode = Mode.L_Insert;
-            if (mode == Mode.C_Remove) mode = Mode.L_Remove;
-            if (mode == Mode.C_Search) mode = Mode.L_Search;
-            step = 0;
-        }
-        private void controlRButton_Checked(object sender, RoutedEventArgs e)
-        {
-            Random rnd = new Random();
-            total = 0;
-            score = 0;
-            step = 0;
-            control.CurrentNode = t.Root;
-            if (mode == Mode.L_Search)
-            {
-                mode = Mode.C_Search;               
-                textBox1.Text = rnd.Next(10, 100).ToString();
-            }
-            if (mode == Mode.L_Insert)
-            {
-                mode = Mode.C_Insert;
-                textBox1.Text = rnd.Next(10, 100).ToString();
-            }
-            if (mode == Mode.L_Remove)
-            {
-                mode = Mode.C_Remove;
-                List<int> keys = t.GetKeys(new List<int>(), t.Root);
-                int i = rnd.Next(0, keys.Count);
-                textBox1.Text = keys[i].ToString();
-            }            
-
         }
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
