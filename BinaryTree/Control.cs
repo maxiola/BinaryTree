@@ -57,7 +57,7 @@ namespace BinaryTree
                     currentNode = t.Root;
                     t.Reset(t.Root);
                     ready = false;
-                    evRestart();
+                    evRestart(this);
                 }
                 return -1;
             }
@@ -101,7 +101,7 @@ namespace BinaryTree
                     currentNode = t.Root;
                     t.Reset(t.Root);
                     ready = false;
-                    evRestart();
+                    evRestart(this);
                 }
                 return -1;
             }

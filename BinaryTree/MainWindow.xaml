@@ -33,12 +33,12 @@
         </Menu>
         <Canvas x:Name="canvas1" HorizontalAlignment="Left" Height="543" Margin="44,198,0,0" VerticalAlignment="Top" Width="702" Grid.ColumnSpan="3"/>
         <TextBox x:Name="textBox1" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Margin="551.8,26,0,0" Grid.Column="2"/>
-        <RadioButton x:Name="ans1rButton" HorizontalAlignment="Left" Margin="90,60,0,0" VerticalAlignment="Top" Height="27" Width="386" FontSize="16" Visibility="Hidden" Grid.ColumnSpan="3"/>
-        <RadioButton x:Name="ans2rButton" Grid.Column="2" HorizontalAlignment="Left" Margin="149.8,60,0,0" VerticalAlignment="Top" Height="27" Width="345" FontSize="16" Visibility="Hidden"/>
-        <RadioButton x:Name="ans3rButton" HorizontalAlignment="Left" Margin="90,92,0,0" VerticalAlignment="Top" Height="27" Width="386" FontSize="16" Visibility="Hidden" Grid.ColumnSpan="3"/>
-        <RadioButton x:Name="ans4rButton" Grid.Column="2" HorizontalAlignment="Left" Margin="149.8,92,0,0" VerticalAlignment="Top" Height="27" Width="345" FontSize="16" Visibility="Hidden"/>
-        <Label x:Name="labelQuestion" Grid.Column="2" HorizontalAlignment="Left" Margin="1.8,23,0,0" VerticalAlignment="Top" Width="246" FontSize="18" Visibility="Hidden" Height="10"/>
-        <Label x:Name="labelInfo" Content="" HorizontalAlignment="Left" Margin="10,159,0,0" VerticalAlignment="Top" Width="992" Grid.ColumnSpan="3" Height="26"/>
+        <RadioButton x:Name="ans1rButton" HorizontalAlignment="Left" Margin="55,54,0,0" VerticalAlignment="Top" Height="27" Width="900" FontSize="16" Visibility="Hidden" Grid.ColumnSpan="3"/>
+        <RadioButton x:Name="ans2rButton" HorizontalAlignment="Left" Margin="55,82,0,0" VerticalAlignment="Top" Height="27" Width="900" FontSize="16" Visibility="Hidden" Grid.ColumnSpan="3"/>
+        <RadioButton x:Name="ans3rButton" HorizontalAlignment="Left" Margin="55,109,0,0" VerticalAlignment="Top" Height="27" Width="900" FontSize="16" Visibility="Hidden" Grid.ColumnSpan="3"/>
+        <RadioButton x:Name="ans4rButton" HorizontalAlignment="Left" Margin="55,136,0,0" VerticalAlignment="Top" Height="27" Width="900" FontSize="16" Visibility="Hidden" Grid.ColumnSpan="3"/>
+        <Label x:Name="labelQuestion" HorizontalAlignment="Left" Margin="207,22,0,0" VerticalAlignment="Top" Width="366" FontSize="16" Visibility="Hidden" Height="38" Grid.ColumnSpan="3"/>
+        <Label x:Name="labelInfo" Content="" HorizontalAlignment="Left" Margin="10,178,0,0" VerticalAlignment="Top" Width="992" Grid.ColumnSpan="3" Height="26"/>
         <TextBox x:Name="txtInfo" HorizontalAlignment="Left" Height="543" Margin="428.8,198,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="396" ScrollViewer.VerticalScrollBarVisibility="Auto" Grid.Column="2" TextChanged="txtInfo_TextChanged"/>
 
     </Grid>

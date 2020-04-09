@@ -10,7 +10,7 @@ using System.Windows;
 
 namespace BinaryTree
 {
-    public delegate void RestartEventHandler();
+    public delegate void RestartEventHandler(object sender);
     enum Side
     {
         Left,

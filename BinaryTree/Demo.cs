@@ -63,7 +63,7 @@ namespace BinaryTree
                     currentNode = t.Root;
                     t.Reset(t.Root);
                     ready = false;
-                    evRestart();
+                    evRestart(this);
                 }
                 return "\n";
             }
@@ -87,7 +87,7 @@ namespace BinaryTree
                             currentNode.Color = Color.FromArgb(255, 255, 0, 0);
                             currentNode.Left = new Node(key);
                             currentNode.Left.Color = Color.FromArgb(255, 0, 255, 0);
-                            string res = "Значение добавляемого ключа " + key + " меньше " + currentNode.Key + " и левая ветка свободна, добавляем элемент";
+                            string res = "Значение добавляемого ключа " + key + " меньше или равно " + currentNode.Key + " и левая ветка свободна, добавляем элемент";
                             ready = true;
                             return res;
                         }
@@ -95,7 +95,7 @@ namespace BinaryTree
                     else
                     {
                         currentNode.Color = Color.FromArgb(255, 255, 0, 0);
-                        string res = "Значение добавляемого ключа " + key + " меньше " + currentNode.Key + ", необходимо искать свободную ветку в левом поддереве";
+                        string res = "Значение добавляемого ключа " + key + " меньше или равно" + currentNode.Key + ", необходимо искать свободную ветку в левом поддереве";
                         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                         currentNode.Left.DX = currentNode.DX /= 1.5;
                         currentNode.Left.X = currentNode.X - currentNode.Left.DX;
@@ -123,8 +123,7 @@ namespace BinaryTree
                             currentNode.Right.Color = Color.FromArgb(255, 0, 255, 0);
                             ready = true;
                             return res;
-                        }
-                        
+                        }                        
                     }
                     else
                     {
@@ -147,7 +146,7 @@ namespace BinaryTree
                     t.Reset(t.Root);
                     ready = false;
                     created = false;
-                    evRestart();
+                    evRestart(this);
                 }
                 return "\n";
             }
@@ -311,7 +310,7 @@ namespace BinaryTree
                     min_first = true;
                     min_search = true;
                     found = false;
-                    evRestart();
+                    evRestart(this);
                 }
                 return "\n";
             }

@@ -55,10 +55,6 @@ namespace BinaryTree
             inputBox = new InputBox();
             inputBox.Show();            
         }
-        private void Demo_evRestart()
-        {
-            throw new NotImplementedException();
-        }
         private int CheckedAnswer()
         {
             if (ans1rButton.IsChecked == true) return 1;
@@ -74,7 +70,7 @@ namespace BinaryTree
             ans3rButton.Visibility = Visibility.Visible;
             ans4rButton.Visibility = Visibility.Visible;
             labelQuestion.Visibility = Visibility.Visible;
-            labelQuestion.Content = "Выберите правильный ответ";
+            labelQuestion.Content = "Укажите следующий шаг алгоритма:";
         }
         private void HideAnswers()
         {
@@ -84,26 +80,26 @@ namespace BinaryTree
             ans4rButton.Visibility = Visibility.Hidden;
             labelQuestion.Visibility = Visibility.Hidden;
         }
-        private void SearchAnswers()
+        private void SearchAnswers(int key)
         {
-            ans1rButton.Content = "Элемент найден";
-            ans2rButton.Content = "Элемент не найден";
-            ans3rButton.Content = "Ищем элемент слева";
-            ans4rButton.Content = "Ищем элемент справа";
+            ans1rButton.Content = "Элемент со значением " + key +" найден";
+            ans2rButton.Content = "Элемент со значением " + key + " не найден";
+            ans3rButton.Content = "Искомое значение " + key + " меньше, чем текущее, необходимо искать в левом поддереве";
+            ans4rButton.Content = "Искомое значение " + key + " больше, чем текущее, необходимо искать в правом поддереве";
         }
-        private void InsertAnswers()
+        private void InsertAnswers(int key)
         {
-            ans1rButton.Content = "Добавляем элемент слева";
-            ans2rButton.Content = "Добавляем элемент справа";
-            ans3rButton.Content = "Ищем элемент слева";
-            ans4rButton.Content = "Ищем элемент справа";
+            ans1rButton.Content = "Значение добавляемого ключа " + key + " меньше или равно текущему и левая ветка свободна, добавляем элемент";
+            ans2rButton.Content = "Значение добавляемого ключа " + key + " больше текущего и правая ветка свободна, добавляем элемент";
+            ans3rButton.Content = "Значение добавляемого ключа " + key + " меньше или равно текущему, необходимо искать свободную ветку в левом поддереве";
+            ans4rButton.Content = "Значение добавляемого ключа " + key + " больше текущего, необходимо искать свободную ветку в правом поддереве";
         }
-        private void RemoveAnswers()
+        private void RemoveAnswers(int key)
         {
-            ans1rButton.Content = "У элемента нет потомков, он просто удаляется.";
-            ans2rButton.Content = "Элемент замещается правым потомком.";
-            ans3rButton.Content = "Элемент замещается левым потомком.";
-            ans4rButton.Content = "Элемент замещается мин. потомком справа.";
+            ans1rButton.Content = "Удаляемый элемент " + key + " найден, у него нет потомков, элемент удаляется";
+            ans2rButton.Content = "Удаляемый элемент " + key + " найден, его место займёт правый потомок ";
+            ans3rButton.Content = "Удаляемый элемент " + key + " найден, его место займёт левый потомок ";
+            ans4rButton.Content = "Удаляемый элемент " + key + " найден, его место займёт наименьший из потомков в правом поддереве";
         }
         private void Uncheck()
         {
@@ -134,7 +130,7 @@ namespace BinaryTree
             sw.Close();
         }
         private void Button_Click(object sender, RoutedEventArgs e)
-        {
+        {            
             string r = string.Empty;
             if (textBox1.Text != String.Empty)
             {                
@@ -207,7 +203,7 @@ namespace BinaryTree
                         if (ans1rButton.Visibility == Visibility.Hidden)
                         {
                             ShowAnswers();
-                            SearchAnswers();                            
+                            SearchAnswers(key);                            
                         }
                         else
                         {                            
@@ -218,6 +214,7 @@ namespace BinaryTree
                             }
                             total++;
                             var correct_ans = control.Search(key, t);
+                            SearchAnswers(key);
                             if (correct_ans == -1)
                             {
                                 Uncheck();
@@ -229,8 +226,8 @@ namespace BinaryTree
                             {
                                 if (control.CurrentNode != null)
                                     control.CurrentNode.Color = Color.FromArgb(255, 0, 255, 0);
-                                txtInfo.Text += "Верно!\n";
                                 score++;
+                                txtInfo.Text += "Верно! Правильных ответов: " + score + "\n";                                
                             }
                             else
                             {
@@ -260,7 +257,7 @@ namespace BinaryTree
                             {
                                 canvas1.Children.Clear();
                                 DrawTree(t.Root, canvas1.Width / 2, 20, 150, 60, 30, 0);
-                                MessageBox.Show("Правильных ответов: " + score + " из " + total);
+                                txtInfo.Text += "Правильных ответов: " + score + " из " + total + "\n";
                                 ResToFile(score, total);
                                 total = 0;
                                 score = 0;
@@ -277,7 +274,7 @@ namespace BinaryTree
                         if (ans1rButton.Visibility == Visibility.Hidden)
                         {
                             ShowAnswers();
-                            InsertAnswers();
+                            InsertAnswers(key);
                         }
                         else
                         {
@@ -288,6 +285,7 @@ namespace BinaryTree
                             }
                             total++;
                             var correct_ans = control.Insert(key, t);
+                            InsertAnswers(key);
                             if (correct_ans == -1)
                             {
                                 Uncheck();
@@ -299,8 +297,9 @@ namespace BinaryTree
                             {
                                 if (control.CurrentNode != null)
                                     control.CurrentNode.Color = Color.FromArgb(255, 0, 255, 0);
-                                txtInfo.Text += "Верно!\n";
                                 score++;
+                                txtInfo.Text += "Верно! Правильных ответов: " + score + "\n";
+                                
                             }
                             else
                             {
@@ -330,7 +329,7 @@ namespace BinaryTree
                             {
                                 canvas1.Children.Clear();
                                 DrawTree(t.Root, canvas1.Width / 2, 20, 150, 60, 30, 0);
-                                MessageBox.Show("Правильных ответов: " + score + " из " + total);
+                                txtInfo.Text += "Правильных ответов: " + score + " из " + total + "\n";
                                 ResToFile(score, total);
                                 total = 0;
                                 score = 0;
@@ -339,18 +338,15 @@ namespace BinaryTree
                         }
                         break;
 
-                    case Mode.C_Remove:
-                        if (step == 1)
-                        {
-                            txtInfo.Text += "УДАЛЕНИЕ КЛЮЧА " + key + '\n';
-                        }
+                    case Mode.C_Remove:                
                         if (ans1rButton.Visibility == Visibility.Hidden)
                         {
                             ShowAnswers();
-                            RemoveAnswers();
+                            RemoveAnswers(key);
+                            txtInfo.Text += "УДАЛЕНИЕ КЛЮЧА " + key + '\n';
                         }
                         else
-                        {
+                        {                                                     
                             if (CheckedAnswer() == 0)
                             {
                                 MessageBox.Show("Выберите вариант ответа");
@@ -362,11 +358,13 @@ namespace BinaryTree
                                 {
                                     total++;
                                     var correct_ans = control.Remove(key, t);
+                                    
                                     if (CheckedAnswer() == correct_ans)
                                     {
                                         control.CurrentNode.Color = Color.FromArgb(255, 0, 255, 0);
-                                        txtInfo.Text += "Верно!\n";
                                         score++;
+                                        txtInfo.Text += "Верно! Правильных ответов: " + score + "\n";
+                                        
                                     }
                                     else
                                     {
@@ -396,14 +394,15 @@ namespace BinaryTree
                                         List<int> keys = t.GetKeys(new List<int>(), t.Root);
                                         int i = rnd.Next(0, keys.Count);
                                         textBox1.Text = keys[i].ToString();
-                                    }
-                                    
+                                        RemoveAnswers(keys[i]);
+                                        txtInfo.Text += "УДАЛЕНИЕ КЛЮЧА " + keys[i] + '\n';
+                                    }                                    
                                 }
                                 else
                                 {
                                     canvas1.Children.Clear();
                                     DrawTree(t.Root, canvas1.Width / 2, 20, 150, 60, 30, 0);
-                                    MessageBox.Show("Правильных ответов: " + score + " из " + total);
+                                    txtInfo.Text += "Правильных ответов: " + score + " из " + total + "\n";
                                     ResToFile(score, total);
                                     total = 0;
                                     score = 0;
@@ -419,17 +418,15 @@ namespace BinaryTree
                                     control.CurrentNode = t.Root;
                                     control.Ready = false;
                                     t.Reset(t.Root);
-                                    tree_Restart();
+                                    tree_Restart(this);
                                 }                                
                             }
                             break;
-
                         }
                         break;
                 }
                 canvas1.Children.Clear();
                 DrawTree(t.Root, canvas1.Width / 2, 20, 150, 60, 30, 0);
-
             }
         }
         private void DrawNode(Color c, int key, double x, double y, double size)
@@ -467,12 +464,12 @@ namespace BinaryTree
                 if (lr > 0)
                 {
                     //right                 
-                    l.X2 = x - dx * 1.5 + size / 2;
+                    l.X2 = x - dx * 1.8 + size / 2;
                 }
                 else
                 {
                     // left
-                    l.X2 = x + dx * 1.5 + size / 2;
+                    l.X2 = x + dx * 1.8 + size / 2;
                 }
                 canvas1.Children.Add(l);
             }
@@ -487,13 +484,26 @@ namespace BinaryTree
             {
                 DrawNode(n.Color, n.Key, x, y, size);
                 DrawLine(x, y, dx, dy, size, lr);
-                DrawTree(n.Left, x - dx, y + dy, dx / 1.5, dy, size, -1);
-                DrawTree(n.Right, x + dx, y + dy, dx / 1.5, dy, size, 1);
+                DrawTree(n.Left, x - dx, y + dy, dx / 1.8, dy, size, -1);
+                DrawTree(n.Right, x + dx, y + dy, dx / 1.8, dy, size, 1);
             }
         }
-        private void tree_Restart()
+        private void tree_Restart(object sender)
         {
-            textBox1.Clear();
+            if (sender.GetType().ToString().Contains("Demo"))
+            {
+                textBox1.Clear();
+            }
+            else if (sender.GetType().ToString().Contains("Control"))
+            {
+                textBox1.Text = rnd.Next(10, 100).ToString();
+            }
+            else
+            {
+                List<int> keys = t.GetKeys(new List<int>(), t.Root);
+                int i = rnd.Next(0, keys.Count);
+                textBox1.Text = keys[i].ToString();
+            }
             txtInfo.Text += "\n";
             step = 0;
             HideAnswers();
@@ -539,6 +549,7 @@ namespace BinaryTree
             control.CurrentNode = t.Root;
             control.Ready = false;
             textBox1.Text = rnd.Next(10, 100).ToString();
+            txtInfo.Clear();
         }
         private void Search_Click()
         {
@@ -570,6 +581,7 @@ namespace BinaryTree
             total = 0;
             score = 0;            
             textBox1.Text = rnd.Next(10, 100).ToString();
+            txtInfo.Clear();
         }
         private void Insert_Click()
         {
@@ -605,6 +617,7 @@ namespace BinaryTree
             List<int> keys = t.GetKeys(new List<int>(), t.Root);
             int i = rnd.Next(0, keys.Count);
             textBox1.Text = keys[i].ToString();
+            txtInfo.Clear();
         }
         private void Remove_Click()
         {
