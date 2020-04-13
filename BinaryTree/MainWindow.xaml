@@ -37,7 +37,7 @@
         <RadioButton x:Name="ans2rButton" HorizontalAlignment="Left" Margin="55,82,0,0" VerticalAlignment="Top" Height="27" Width="900" FontSize="16" Visibility="Hidden" Grid.ColumnSpan="3"/>
         <RadioButton x:Name="ans3rButton" HorizontalAlignment="Left" Margin="55,109,0,0" VerticalAlignment="Top" Height="27" Width="900" FontSize="16" Visibility="Hidden" Grid.ColumnSpan="3"/>
         <RadioButton x:Name="ans4rButton" HorizontalAlignment="Left" Margin="55,136,0,0" VerticalAlignment="Top" Height="27" Width="900" FontSize="16" Visibility="Hidden" Grid.ColumnSpan="3"/>
-        <Label x:Name="labelQuestion" HorizontalAlignment="Left" Margin="207,22,0,0" VerticalAlignment="Top" Width="366" FontSize="16" Visibility="Hidden" Height="38" Grid.ColumnSpan="3"/>
+        <Label x:Name="labelQuestion" HorizontalAlignment="Left" Margin="22,22,0,0" VerticalAlignment="Top" Width="551" FontSize="16" Visibility="Hidden" Height="38" Grid.ColumnSpan="3"/>
         <Label x:Name="labelInfo" Content="" HorizontalAlignment="Left" Margin="10,178,0,0" VerticalAlignment="Top" Width="992" Grid.ColumnSpan="3" Height="26"/>
         <TextBox x:Name="txtInfo" HorizontalAlignment="Left" Height="543" Margin="428.8,198,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="396" ScrollViewer.VerticalScrollBarVisibility="Auto" Grid.Column="2" TextChanged="txtInfo_TextChanged"/>
 
