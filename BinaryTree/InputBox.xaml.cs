@@ -29,7 +29,6 @@ namespace BinaryTree
             InitializeComponent();
             ok = false;
         }
-
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (!ok)

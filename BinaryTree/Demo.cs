@@ -95,7 +95,7 @@ namespace BinaryTree
                     else
                     {
                         currentNode.Color = Color.FromArgb(255, 255, 0, 0);
-                        string res = "Значение добавляемого ключа " + key + " меньше или равно" + currentNode.Key + ", необходимо искать свободную ветку в левом поддереве";
+                        string res = "Значение добавляемого ключа " + key + " меньше или равно " + currentNode.Key + ", необходимо искать свободную ветку в левом поддереве";
                         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                         currentNode.Left.DX = currentNode.DX /= 1.5;
                         currentNode.Left.X = currentNode.X - currentNode.Left.DX;
