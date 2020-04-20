@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
+using System.Diagnostics;
 
 namespace BinaryTree
 {
@@ -41,7 +42,8 @@ namespace BinaryTree
         int step;
         int key;
         const int QCOUNT = 5;
-        InputBox inputBox;
+        InputBox inputBox;        
+        
         public MainWindow()
         {
             rnd = new Random();
@@ -222,10 +224,10 @@ namespace BinaryTree
                             DrawNode(Color.FromArgb(255, 255, 255, 0),
                                      key,
                                      demo.CurrentNode.X,
-                                     demo.CurrentNode.Y,
+                                     demo.CurrentNode.Y + 60,
                                      30);
                             return;
-                        }
+                        } 
                         break;
 
                     case Mode.L_Remove:
@@ -675,7 +677,27 @@ namespace BinaryTree
         }
         private void Teacher_Click(object sender, RoutedEventArgs e)
         {
-
+            PasswordWindow passwordWindow = new PasswordWindow();
+            if (passwordWindow.ShowDialog() == true)
+            {
+                if (passwordWindow.Password == "p@$$w0rD")
+                {
+                    var res = new ResultsWindow();
+                    res.Show();
+                }
+                else
+                {
+                    MessageBox.Show("Неверный пароль!");
+                }
+            }
+        }
+        private void ReadMe_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("chrome.exe", "C:\\Users\\Olga\\Downloads\\BinaryTree\\BinaryTree\\bin\\Debug\\readme.html");
+        }
+        private void About_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Разработчик: ...\n(c) 2020", "О программе");
         }
     }
 }

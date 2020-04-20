@@ -27,8 +27,8 @@
             </MenuItem>
             <MenuItem Header="Преподавателю" Click="Teacher_Click"/>
             <MenuItem Header="Справка">
-                <MenuItem Header="Руководство пользователя"/>
-                <MenuItem Header="О программе"/>
+                <MenuItem Header="Руководство пользователя" Click="ReadMe_Click"/>
+                <MenuItem Header="О программе" Click="About_Click"/>
             </MenuItem>
         </Menu>
         <Canvas x:Name="canvas1" HorizontalAlignment="Left" Height="543" Margin="44,198,0,0" VerticalAlignment="Top" Width="702" Grid.ColumnSpan="3"/>
