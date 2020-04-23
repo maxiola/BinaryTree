@@ -57,6 +57,13 @@ namespace BinaryTree
             InitializeComponent();
             inputBox = new InputBox();
             inputBox.Show();
+            if (!File.Exists("results.csv"))
+            {
+                StreamWriter sw = new StreamWriter("results.csv");
+                sw.WriteLine("Дата и время,ФИО,Группа,Операция,Правильных ответов,Всего вопросов");
+                sw.Close();
+            }
+
         }
         private int CheckedAnswer()
         {
@@ -693,6 +700,7 @@ namespace BinaryTree
         }
         private void ReadMe_Click(object sender, RoutedEventArgs e)
         {
+            //!!!
             Process.Start("chrome.exe", "C:\\Users\\Olga\\Downloads\\BinaryTree\\BinaryTree\\bin\\Debug\\readme.html");
         }
         private void About_Click(object sender, RoutedEventArgs e)
