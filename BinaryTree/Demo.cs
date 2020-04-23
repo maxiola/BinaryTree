@@ -79,6 +79,7 @@ namespace BinaryTree
                         if (!created)
                         {
                             string res = "Значение добавляемого ключа " + key + " меньше или равно " + currentNode.Key + " и левая ветка свободна, создаём элемент";
+                            currentNode.X -= currentNode.DX;
                             created = true;
                             return res;
                         }
@@ -96,12 +97,10 @@ namespace BinaryTree
                     {
                         currentNode.Color = Color.FromArgb(255, 255, 0, 0);
                         string res = "Значение добавляемого ключа " + key + " меньше или равно " + currentNode.Key + ", необходимо искать свободную ветку в левом поддереве";
-                        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                         currentNode.Left.DX = currentNode.DX / 1.8;
-                        currentNode.Left.X = currentNode.X - currentNode.Left.DX;
+                        currentNode.Left.X = currentNode.X - currentNode.DX;
                         currentNode.Left.Y = currentNode.Y + 60;
-                        currentNode = currentNode.Left;
-                        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                        currentNode = currentNode.Left;                       
                         return res;
                     }
                 }
@@ -112,6 +111,7 @@ namespace BinaryTree
                         if (!created)
                         {
                             string res = "Значение добавляемого ключа " + key + " больше " + currentNode.Key + " и правая ветка свободна, создаём элемент";
+                            currentNode.X += currentNode.DX;
                             created = true;
                             return res;
                         }
@@ -130,7 +130,7 @@ namespace BinaryTree
                         currentNode.Color = Color.FromArgb(255, 255, 0, 0);
                         string res = "Значение добавляемого ключа " + key + " больше " + currentNode.Key + ", необходимо искать свободную ветку в правом поддереве";
                         currentNode.Right.DX = currentNode.DX / 1.8;
-                        currentNode.Right.X = currentNode.X + currentNode.Right.DX;
+                        currentNode.Right.X = currentNode.X + currentNode.DX;
                         currentNode.Right.Y = currentNode.Y + 60;
                         currentNode = currentNode.Right;
                         return res;
