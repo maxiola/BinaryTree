@@ -699,9 +699,8 @@ namespace BinaryTree
             }
         }
         private void ReadMe_Click(object sender, RoutedEventArgs e)
-        {
-            //!!!
-            Process.Start("chrome.exe", "C:\\Users\\Olga\\Downloads\\BinaryTree\\BinaryTree\\bin\\Debug\\readme.html");
+        {            
+            Process.Start("chrome.exe", Environment.CurrentDirectory + "\\readme.html");
         }
         private void About_Click(object sender, RoutedEventArgs e)
         {
