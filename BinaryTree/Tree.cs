@@ -10,21 +10,26 @@ using System.Windows;
 
 namespace BinaryTree
 {
-    public delegate void RestartEventHandler(object sender);
-    enum Side
+    public delegate void RestartEventHandler(object sender); // делегат события Restart
+    enum Side // перечисляемый тип для ветвей дерева (левой и правой)
     {
         Left,
         Right
     }
-    class Node
+    public static class TreeConst // класс констант
     {
-        // поля класса
-        private int key;
-        private double x, y, dx;
-        private Node left, right;
-        private Node parent;
-        private Color color;
-        private Side side;
+        public const int DY = 60; // расстояние между узлами дерева по вертикали
+        public const double CoeffDX = 1.8; // коэффициент уменьшения расстояния между узлами по горизонтали
+        public const int QCOUNT = 5; // кол-во вопросов в режиме контроля для удаления
+    }
+    class Node // класс элемента (узла) дерева
+    {
+        private int key; // значение ключа
+        private double x, y, dx; // координаты (для рисования)
+        private Node left, right; // ссылки на левого и правого потомков
+        private Node parent; // ссылка на родителя
+        private Color color; // цвет
+        private Side side; // расположение узла (слева или справа) относительно родителя
 
         // свойства
         public int Key { get { return key; } set { key = value; } }
@@ -43,7 +48,7 @@ namespace BinaryTree
             this.right = null;
             this.color = Color.FromArgb(255, 255, 255, 0);
         }
-        public void ReplaceParentsChild(Node n)
+        public void ReplaceParentsChild(Node n) // изменение ссылки у родительского элемента
         {
             if (this.Parent != null)
             {
@@ -56,13 +61,13 @@ namespace BinaryTree
     }
     class Tree
     {
-        private Node root;
+        private Node root; // ссылка на корень
         public Node Root { get { return root; } set { root = value; } }
-        public Tree()
+        public Tree() // конструктор класса
         {
             root = null;            
         }
-        public List<int> GetKeys(List<int> keys, Node root)
+        public List<int> GetKeys(List<int> keys, Node root) // возвращает список всех ключей дерева (рекурсивно)
         {
             if (root != null)
             {
@@ -72,7 +77,7 @@ namespace BinaryTree
             }
             return keys;
         }
-        public void Reset(Node n)
+        public void Reset(Node n) // заменить цвет всех элементов дерева на жёлтый (рекурсивно)
         {
             if (n != null)
             {
@@ -80,45 +85,44 @@ namespace BinaryTree
                 Reset(n.Left);
                 Reset(n.Right);
             }
-        }
-        public Node Search(Node root, int key)
+        } 
+        public Node Search(Node root, int key) // поиск элемента по ключу (рекурсивно)
         {
-            if (root.Key == key)
+            if (root.Key == key) // элемент найден
             {
                 return root;
             }
             else
             {
-                if (key > root.Key)
+                if (key > root.Key) // искомое значение больше текущего
                 {
-                    if (root.Right == null)
+                    if (root.Right == null) // не найдено
                         return null;
                     else
-                        return Search(root.Right, key);
+                        return Search(root.Right, key); // ищем справа
                 }
-                else
+                else // искомое значение меньше или равно текущему
                 {
-                    if (root.Left == null)
+                    if (root.Left == null) // не найдено
                         return null;
                     else
-                        return Search(root.Left, key);
+                        return Search(root.Left, key); // ищем слева
                 }
             }
-        }
-        public int Insert(Node root, int key, int level)
+        }        
+        public void Insert(Node root, int key) // добавление элемента (рекурсивно)
         {
-            if (root == null)
+            if (root == null) // дерево пустое
             {
                 this.root = new Node(key);
                 this.root.Parent = null;
             }
             else
             {
-                if (root.Key >= key)
+                if (root.Key >= key)  // добавляемое значение меньше или равно текущему
                 {
-                    if (root.Left == null)
+                    if (root.Left == null) // добавляем слева
                     {
-                        level++;
                         root.Left = new Node(key);
                         root.Left.Parent = root;
                         root.Left.Side = Side.Left;
@@ -126,14 +130,13 @@ namespace BinaryTree
                     }
                     else
                     {
-                        level = Insert(root.Left, key, level + 1);
+                        Insert(root.Left, key); // ищем слева
                     }
                 }
-                else
+                else // добавляемое значение больше текущего
                 {
-                    if (root.Right == null)
-                    {
-                        level++;
+                    if (root.Right == null) // добавляем справа
+                    {                        
                         root.Right = new Node(key);
                         root.Right.Parent = root;
                         root.Right.Side = Side.Right;
@@ -141,13 +144,12 @@ namespace BinaryTree
                     }
                     else
                     {
-                        level = Insert(root.Right, key, level + 1);
+                        Insert(root.Right, key); // ищем справа
                     }
                 }
-            }
-            return level;
+            }            
         }
-        public Node Remove(Node n, int key) 
+        public Node Remove(Node n, int key) // удаление элемента (рекурсивно)
         {
             if (root.Key == key) // удаление корня
             {
@@ -188,7 +190,7 @@ namespace BinaryTree
             return n;
 
         }
-        public Node Minimum(Node n)
+        public Node Minimum(Node n) // поиск наименьшего потомка (рекурсивно)
         {
             if (n.Left == null) return n;
             else return Minimum(n.Left);

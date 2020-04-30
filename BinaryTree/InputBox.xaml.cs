@@ -36,7 +36,6 @@ namespace BinaryTree
                 e.Cancel = true;
             }
         }
-
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             if (textBoxName.Text == string.Empty || textBoxGroup.Text == string.Empty)
@@ -47,8 +46,9 @@ namespace BinaryTree
             {
                 stud_name = textBoxName.Text;
                 group = textBoxGroup.Text;
-                ok = true;
+                ok = true;                
                 Close();
+                MessageBox.Show("Вы вошли как " + stud_name, "Вход выполнен");
             }
         }
     }

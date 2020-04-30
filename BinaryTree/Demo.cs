@@ -8,26 +8,30 @@ using System.Windows.Media;
 
 namespace BinaryTree
 {
-    class Demo
+    class Demo // режим демонстрации
     {
-        public event RestartEventHandler evRestart;
-        private Node currentNode, minNode;
-        private bool ready, found, min_search, min_first, created;
+        public event RestartEventHandler evRestart; // событие перезапуска алгоритма
+        private Node currentNode, minNode; // ссылки на текущий элемент и на минимальный элемент
+        private bool ready, found, min_search, min_first, created; // флаги
 
+        // свойства
         public Node CurrentNode { get { return currentNode; } set { currentNode = value; } }
         public bool Ready { get { return ready; } set { ready = value; } }
         public bool Found { get { return found; } set { found = value; } }
         public bool Min_search { get { return min_search; } set { min_search = value; } }
         public bool Min_first { get { return min_first; } set { min_first = value; } }
         public bool Created { get { return created; } set { created = value; } }
-        public Demo()
+        public Demo() // конструктор класса
         {
             ready = false;
             created = false;
         }
-        public string Search(int key, Tree t)
-        {
-            if (!ready)
+
+        // методы поиска, добавления и удаления
+        // возвращают текстовый комментарий после каждого шага алгоритма
+        public string Search(int key, Tree t) // пошаговый поиск элемента 
+        {            
+            if (!ready) // алгоритм ещё не завершился
             {
                 if (currentNode == null)
                 {
@@ -55,7 +59,7 @@ namespace BinaryTree
                     return res;
                 }
             }
-            else
+            else // алгоритм завершился, возможен перезапуск по запросу пользователя
             {
                 var res = MessageBox.Show("Хотите повторить поиск?", "Поиск", MessageBoxButton.YesNo);
                 if (res == MessageBoxResult.Yes)
@@ -68,22 +72,22 @@ namespace BinaryTree
                 return "\n";
             }
         }
-        public string Insert(int key, Tree t)
+        public string Insert(int key, Tree t) // пошаговое добавление элемента
         {
-            if (!ready) // первичное добавление
+            if (!ready) // алгоритм ещё не завершился
             {
-                if (currentNode.Key >= key)
+                if (currentNode.Key >= key) // добавляемое значение меньше или равно текущему
                 {
-                    if (currentNode.Left == null)
+                    if (currentNode.Left == null) // добавялем слева
                     {
-                        if (!created)
+                        if (!created) // создание элемента (без связи)
                         {
                             string res = "Значение добавляемого ключа " + key + " меньше или равно " + currentNode.Key + " и левая ветка свободна, создаём элемент";
                             currentNode.X -= currentNode.DX;
                             created = true;
                             return res;
                         }
-                        else
+                        else // связывание элемента с родителем
                         {
                             currentNode.Color = Color.FromArgb(255, 255, 0, 0);
                             currentNode.Left = new Node(key);
@@ -93,29 +97,29 @@ namespace BinaryTree
                             return res;
                         }
                     }
-                    else
+                    else // ищем слева
                     {
                         currentNode.Color = Color.FromArgb(255, 255, 0, 0);
                         string res = "Значение добавляемого ключа " + key + " меньше или равно " + currentNode.Key + ", необходимо искать свободную ветку в левом поддереве";
-                        currentNode.Left.DX = currentNode.DX / 1.8;
+                        currentNode.Left.DX = currentNode.DX / TreeConst.CoeffDX;
                         currentNode.Left.X = currentNode.X - currentNode.DX;
-                        currentNode.Left.Y = currentNode.Y + 60;
-                        currentNode = currentNode.Left;                       
+                        currentNode.Left.Y = currentNode.Y + TreeConst.DY;
+                        currentNode = currentNode.Left;
                         return res;
                     }
                 }
-                else
+                else // добавляемое значение больше текущего
                 {
-                    if (currentNode.Right == null)
+                    if (currentNode.Right == null) // добавляем справа
                     {
-                        if (!created)
+                        if (!created) // создание элемента (без связи)
                         {
                             string res = "Значение добавляемого ключа " + key + " больше " + currentNode.Key + " и правая ветка свободна, создаём элемент";
                             currentNode.X += currentNode.DX;
                             created = true;
                             return res;
                         }
-                        else
+                        else // связывание элемента с родителем
                         {
                             string res = "Элемент со значением " + key + " становится правым потомком элемента со значением " + currentNode.Key;
                             currentNode.Color = Color.FromArgb(255, 255, 0, 0);
@@ -123,21 +127,21 @@ namespace BinaryTree
                             currentNode.Right.Color = Color.FromArgb(255, 0, 255, 0);
                             ready = true;
                             return res;
-                        }                        
+                        }
                     }
-                    else
+                    else // ищем справа
                     {
                         currentNode.Color = Color.FromArgb(255, 255, 0, 0);
                         string res = "Значение добавляемого ключа " + key + " больше " + currentNode.Key + ", необходимо искать свободную ветку в правом поддереве";
-                        currentNode.Right.DX = currentNode.DX / 1.8;
+                        currentNode.Right.DX = currentNode.DX / TreeConst.CoeffDX;
                         currentNode.Right.X = currentNode.X + currentNode.DX;
-                        currentNode.Right.Y = currentNode.Y + 60;
+                        currentNode.Right.Y = currentNode.Y + TreeConst.DY;
                         currentNode = currentNode.Right;
                         return res;
                     }
                 }
             }
-            else // повторное добавление
+            else // алгоритм завершился, возможен перезапуск
             {
                 var res = MessageBox.Show("Хотите добавить ещё один элемент?", "Добавление", MessageBoxButton.YesNo);
                 if (res == MessageBoxResult.Yes)
@@ -151,9 +155,9 @@ namespace BinaryTree
                 return "\n";
             }
         }
-        public string Remove(int key, Tree t)
+        public string Remove(int key, Tree t) // пошаговое удаление элемента
         {
-            if (!ready)
+            if (!ready) // алгоритм ещё не завершился
             {
                 if (t.Root.Key == key) // удаление корня
                 {
@@ -173,9 +177,6 @@ namespace BinaryTree
                     }
                     else // есть оба потомка
                     {
-                        //int k = Minimum(t.Root.Right).Key; // находим минимального потомка                    
-                        //t.Root.Right = Remove(t.Root.Right, k); // удаляем этого потомка
-                        //t.Root.Key = k;
                         t.Root.Color = Color.FromArgb(255, 0, 0, 255);
                         if (min_search) // ещё не найден замещающий элемент
                         {
@@ -187,7 +188,7 @@ namespace BinaryTree
                             }
                             return Minimum();
                         }
-                        else
+                        else // найден замещающий элемент
                         {
                             int k = t.Minimum(t.Root.Right).Key; // находим минимального потомка
                             string res = "Удаляемый элемент " + key + " найден, его место займёт наименьший из потомков в правом поддереве " + k;
@@ -231,7 +232,7 @@ namespace BinaryTree
                         }
                         return Minimum();
                     }
-                    else
+                    else // замещающий элемент найден
                     {
                         int k = t.Minimum(currentNode.Right).Key; // находим минимального потомка
                         string res = "Удаляемый элемент " + key + " найден, его место займёт наименьший из потомков в правом поддереве " + k;
@@ -244,7 +245,7 @@ namespace BinaryTree
                 }
                 else if (currentNode.Left != null) // есть только левый потомок, он встаёт на место удаляемого
                 {
-                    if (!found)
+                    if (!found) // выделение цветом удаляемого элемента и его родителя
                     {
                         string res = "Удаляемый элемент " + key + " найден, его место займёт левый потомок " + currentNode.Left.Key;
                         currentNode.Color = Color.FromArgb(255, 0, 0, 255);
@@ -252,7 +253,7 @@ namespace BinaryTree
                         found = true;
                         return res;
                     }
-                    else
+                    else // удаление элемента
                     {
                         string res = "Элемент " + key + " удалён";
                         currentNode.ReplaceParentsChild(currentNode.Left);
@@ -263,7 +264,7 @@ namespace BinaryTree
                 }
                 else if (currentNode.Right != null) // есть только правый потомок, он встаёт на место удаляемого
                 {
-                    if (!found)
+                    if (!found) // выделение цветом удаляемого элемента и его родителя
                     {
                         string res = "Удаляемый элемент " + key + " найден, его место займёт правый потомок " + currentNode.Right.Key;
                         currentNode.Color = Color.FromArgb(255, 0, 0, 255);
@@ -271,7 +272,7 @@ namespace BinaryTree
                         found = true;
                         return res;
                     }
-                    else
+                    else // удаление элемента
                     {
                         string res = "Элемент " + key + " удалён";
                         currentNode.ReplaceParentsChild(currentNode.Right);
@@ -282,14 +283,14 @@ namespace BinaryTree
                 }
                 else // нет потомков, просто удаляем элемент
                 {
-                    if (!found)
+                    if (!found) // выделение цветом удаляемого элемента
                     {
                         string res = "Удаляемый элемент " + key + " найден, у него нет потомков";
                         currentNode.Color = Color.FromArgb(255, 0, 255, 0);
                         found = true;
                         return res;
                     }
-                    else
+                    else // удаление элемента
                     {
                         string res = "Элемент " + key + " удалён";
                         currentNode.ReplaceParentsChild(null);
@@ -299,7 +300,7 @@ namespace BinaryTree
                     }
                 }
             }
-            else
+            else // алгоритм завершился, возможен перезапуск
             {
                 var res = MessageBox.Show("Хотите удалить ещё один элемент?", "Удаление", MessageBoxButton.YesNo);
                 if (res == MessageBoxResult.Yes)
@@ -315,7 +316,7 @@ namespace BinaryTree
                 return "\n";
             }
         }
-        private string Minimum()
+        private string Minimum() // пошаговый поиск минимального элемента
         {
             if (minNode.Left == null)
             {
